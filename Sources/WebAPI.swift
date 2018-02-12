@@ -288,13 +288,13 @@ extension WebAPI {
         let parameters: [String: Any?] = [
             "token": token,
             "channel": channel,
+            "user": user,
             "text": escapeCharacters ? text.slackFormatEscaping : text,
             "as_user": asUser,
             "parse": parse?.rawValue,
             "link_names": linkNames,
             "unfurl_links": unfurlLinks,
             "unfurlMedia": unfurlMedia,
-            "username": username,
             "icon_url": iconURL,
             "icon_emoji": iconEmoji,
             "attachments": encodeAttachments(attachments)
