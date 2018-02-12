@@ -273,7 +273,7 @@ extension WebAPI {
         channel: String,
         text: String,
         escapeCharacters: Bool = true,
-        user: String? = nil,
+        user: String,
         asUser: Bool? = nil,
         parse: ParseMode? = nil,
         linkNames: Bool? = nil,
