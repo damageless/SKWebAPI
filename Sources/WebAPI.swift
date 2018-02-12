@@ -269,6 +269,43 @@ extension WebAPI {
         }
     }
 
+    public func sendEphemeralMessage(
+        channel: String,
+        text: String,
+        escapeCharacters: Bool = true,
+        user: String? = nil,
+        asUser: Bool? = nil,
+        parse: ParseMode? = nil,
+        linkNames: Bool? = nil,
+        attachments: [Attachment?]? = nil,
+        unfurlLinks: Bool? = nil,
+        unfurlMedia: Bool? = nil,
+        iconURL: String? = nil,
+        iconEmoji: String? = nil,
+        success: (((ts: String?, channel: String?)) -> Void)?,
+        failure: FailureClosure?
+    ) {
+        let parameters: [String: Any?] = [
+            "token": token,
+            "channel": channel,
+            "text": escapeCharacters ? text.slackFormatEscaping : text,
+            "as_user": asUser,
+            "parse": parse?.rawValue,
+            "link_names": linkNames,
+            "unfurl_links": unfurlLinks,
+            "unfurlMedia": unfurlMedia,
+            "username": username,
+            "icon_url": iconURL,
+            "icon_emoji": iconEmoji,
+            "attachments": encodeAttachments(attachments)
+        ]
+        networkInterface.request(.chatPostEphemeral, parameters: parameters, successClosure: {(response) in
+            success?((ts: response["ts"] as? String, response["channel"] as? String))
+        }) {(error) in
+            failure?(error)
+        }
+    }
+
     public func sendThreadedMessage(
         channel: String,
         thread: String,
